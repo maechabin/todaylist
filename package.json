@@ -1,0 +1,14 @@
+{
+  "name": "osusume",
+  "version": "1.0.0",
+  "description": "",
+  "main": "child.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "react-tools": "^0.13.0"
+  }
+}
