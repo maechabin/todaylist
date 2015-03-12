@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "react-tools": "^0.13.0"
+  },
+  "browser": {
+    "tipso": "./node_modules/react-tools/src/main.js"
   }
 }

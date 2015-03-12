@@ -44,17 +44,26 @@ today.list = today.list || {};
 
   p.extractionData = function () {
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "list.csv", false);
-    xhr.send();
-    xhr.overrideMimeType('text/plain; charset=euc-jp');
+    var d = new $.Deferred();
+
+    $.ajax({
+      url: "src/index.php",
+
+      processData: false,
+      contentType: false,
+      success: d.resolve,
+      error: d.reject
+    });
+
+    return d.promise();
 
   };
 
   p.makeData = function () {
 
-
-
+    this.extractionData().done(function (d) {
+      console.log(d);
+    });
     this.setCookie();
 
   };
@@ -62,7 +71,6 @@ today.list = today.list || {};
   p.init = function () {
 
     var c = this.getCookie();
-    this.extractionData();
 
     //if (c._m8_daily_visited !== "true") {
       this.makeData();
@@ -73,62 +81,45 @@ today.list = today.list || {};
 })(window, document, window.today.list = window.today.list || {});
 
 
+
+
 window.onload = setTimeout(function () {
 
   var data = [
     {date: "2015-03-11", pid: "m00000000475001", pname: "モバハチ【Moba8.net】無料会員募集プログラム"}
   ];
 
-  var css = {
-    div: {
-      "position": "absolute",
-      "top": 0,
-      "bottom": 0,
-      "left": 0,
-      "right": 0,
-      "margin": "auto",
-      "opacity": 1,
-      "z-index": 1000,
-      "width": "300px",
-      "height": "100px",
-      "background-color": "#fff",
-      "border": "5px solid #9CCC65",
-      "border-radius": "2px",
-      "padding": "16px",
-      "box-shadow": "0 0 5px #666"
-    },
-    title: {
-      "font-size": "18px",
-      "text-align": "center"
-    },
-    ul: {
-      "text-align": "center",
-      "font-size": "16px",
-      "font-weight": "bold",
-      "list-style-type": "none",
-      "padding-left": 0
-    },
-    button: {
-      "width": "32px",
-      "line-height": "24px",
-      "background-color": "#fff",
-      "border": "none",
-      "cursor": "pointer",
-      "border-radius": "2px",
-      "font-size": "18px",
-      "position": "absolute",
-      "top": "8px",
-      "right": "8px",
-      "opacity": 1,
-      "z-index": 1001
-    }
-  }
-
   var ProgramBox = React.createClass({
+    style: {
+      div: {
+        "font-family": "メイリオ",
+        "color": "#0288D1",
+        "position": "absolute",
+        "top": 0,
+        "bottom": 0,
+        "left": 0,
+        "right": 0,
+        "margin": "auto",
+        "opacity": 1,
+        "z-index": 1000,
+        "width": "300px",
+        "height": "120px",
+        "background-color": "#fff",
+        "border": "6px solid #0277BD",
+        "border-radius": "2px",
+        "padding": "16px",
+        "box-shadow": "0 0 6px #666"
+      },
+      title: {
+        "margin": "0",
+        "font-size": "18px",
+        "text-align": "center"
+      }
+    },
     render: function () {
       return (
-        <div style={css.div} className="programBox">
-          <h2 style={css.title}>本日のおすすめプログラム</h2>
+        <div style={this.style.div} className="programBox">
+          <h2 style={this.style.title}>本日のおすすめプログラム</h2>
           <ProgramList data={this.props.data} />
           <ClearButton />
         </div>
@@ -138,11 +129,28 @@ window.onload = setTimeout(function () {
 
   var ProgramList = React.createClass({
     render: function () {
+      var style = {
+        ul: {
+          "margin-top": "2px",
+          "text-align": "center",
+          "font-size": "16px",
+          "font-weight": "bold",
+          "list-style-type": "none",
+          "padding-left": 0
+        },
+        date: {
+          "font-size": "14px"
+        },
+        name: {
+          "text-align": "left",
+          "margin-top": "8px"
+        }
+      };
       var programNodes = this.props.data.map(function (p) {
         return (
-          <ul style={css.ul}>
-            <li>{p.date}</li>
-            <li><a href='http://moba8.net/a8v2/asProgramDetailAction.do?insId={p.pid}'>{p.pname}</a></li>
+          <ul style={style.ul}>
+            <li style={style.date}>【{p.date}】</li>
+            <li style={style.name}><a href='http://moba8.net/a8v2/asProgramDetailAction.do?insId={p.pid}'>{p.pname}</a></li>
           </ul>
         );
       });
@@ -161,9 +169,26 @@ window.onload = setTimeout(function () {
       console.dir(program_box);
       program_box.fadeOut(500);
     },
+    style: {
+      "width": "32px",
+      "line-height": "32px",
+      "vertical-align": "middle",
+      "background-color": "#fff",
+      "border": "none",
+      "cursor": "pointer",
+      "border-radius": "2px",
+      "font-size": "20px",
+      "font-weight": "bold",
+      "position": "absolute",
+      "top": "4px",
+      "right": "4px",
+      "opacity": 1,
+      "z-index": 1001,
+      "color": "#455A64"
+    },
     render: function () {
       return (
-        <button style={css.button} className="clearButton" onClick={this.clearBox}>
+        <button style={this.style} className="clearButton" onClick={this.clearBox}>
           ×
         </button>
       );
