@@ -6,7 +6,7 @@ class Convert_to_array {
     $csv = array();
     $file = "../list.csv";
     $data = file_get_contents($file);
-    $data = mb_convert_encoding($data, "utf-8", "sjis-win");
+    $data = mb_convert_encoding($data, "utf-8", "sjis");
     $temp = tmpfile();
 
     fwrite($temp, $data);
@@ -17,9 +17,11 @@ class Convert_to_array {
     }
 
     $json = json_encode($csv, JSON_UNESCAPED_UNICODE);
-    var_dump($json);
 
+    // echo $_GET["callback"] . "(" . $json . ")";
+    print $json;
     fclose($temp);
+
   }
 
   public function init() {

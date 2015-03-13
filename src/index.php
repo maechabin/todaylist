@@ -1,8 +1,10 @@
 <?php
 
-ini_set( 'display_errors', 1 );
+if (isset($_GET["url"])) {
 
-require_once("convert_to_array.php");
+  header("Access-Control-Allow-Origin: *");
+  $a = readfile($_GET["url"]);
 
-$array = new Convert_to_array;
-$array->init();
+  echo $a;
+
+}

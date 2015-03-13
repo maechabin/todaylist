@@ -5,6 +5,8 @@ today.list = today.list || {};
 
   "use strict";
 
+  p.json = {};
+
   p.setCookie = function () {
 
     var week_arr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -42,13 +44,14 @@ today.list = today.list || {};
 
   };
 
-  p.extractionData = function () {
+  p.fetchCSV = function () {
 
     var d = new $.Deferred();
 
     $.ajax({
-      url: "src/index.php",
-
+      url: "http://support.moba8.net/test/maeda/src/index.php?url=http://support.moba8.net/test/maeda/src/load.php",
+      type: "get",
+      //dataType: "jsonp",
       processData: false,
       contentType: false,
       success: d.resolve,
@@ -59,21 +62,47 @@ today.list = today.list || {};
 
   };
 
-  p.makeData = function () {
+  p.extractData = function () {
 
-    this.extractionData().done(function (d) {
-      console.log(d);
+    var _this = this;
+    var w = $(window);
+
+    this.fetchCSV().done(function (d) {
+      console.dir(d);
+      var array = JSON.parse(d);
+      _this.generateJson(array);
+      w.trigger("start_view");
     });
-    this.setCookie();
 
   };
+
+  p.generateJson = function (a) {
+
+    var d = new Date();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    var today = month + "月" + day + "日";
+    var array = a;
+
+    for (var i = 0, l = array.length; i < l; i++) {
+
+      if (array[i][0] === today) {
+        this.json.date = array[i][0];
+        this.json.pid = array[i][1];
+        this.json.pname = array[i][2];
+      }
+
+    }
+
+  }
 
   p.init = function () {
 
     var c = this.getCookie();
 
     //if (c._m8_daily_visited !== "true") {
-      this.makeData();
+      this.extractData();
+      this.setCookie();
     //}
 
   };
@@ -81,13 +110,14 @@ today.list = today.list || {};
 })(window, document, window.today.list = window.today.list || {});
 
 
+function makeView(j) {
 
-
-window.onload = setTimeout(function () {
-
+/*
   var data = [
-    {date: "2015-03-11", pid: "m00000000475001", pname: "モバハチ【Moba8.net】無料会員募集プログラム"}
+    {date: "2015-03-11", pid: "xxxxxxxxxxxxxxx", pname: "xxxxxxxxxxx"}
   ];
+*/
+  var data = [j];
 
   var ProgramBox = React.createClass({
     style: {
@@ -166,7 +196,6 @@ window.onload = setTimeout(function () {
     clearBox: function (e) {
       e.preventDefault();
       var program_box = $(".programBox");
-      console.dir(program_box);
       program_box.fadeOut(500);
     },
     style: {
@@ -197,9 +226,20 @@ window.onload = setTimeout(function () {
 
   React.render(
     <ProgramBox data={data} />,
-    document.getElementsByTagName('body')[0]
+    document.getElementById('todaylist')
   );
 
-  today.list.init();
+};
 
-}, 1000);
+(function () {
+
+  var w = $(window);
+  today.list.init();
+  w.on("start_view", function () {
+    var json = today.list.json;
+    setTimeout(function () {
+      makeView(json)
+    }, 1000);
+  });
+
+} ());

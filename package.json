@@ -9,9 +9,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "react": "^0.13.0",
     "react-tools": "^0.13.0"
   },
   "browser": {
-    "tipso": "./node_modules/react-tools/src/main.js"
+    "react": "./node_modules/react-tools/src/main.js"
   }
 }
