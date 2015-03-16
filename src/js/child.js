@@ -46,13 +46,13 @@ today.list = today.list || {};
 
   p.fetchCSV = function () {
 
+    var protocol = location.protocol;
     var d = new $.Deferred();
 
     $.ajax({
-//      url: "http://support.moba8.net/test/maeda/src/php/index.php?url=http://support.moba8.net/test/maeda/src/php/load.php",
+//      url: protocol + "//localhost:8888/osusume/src/php/index.php?url=" + protocol + "//localhost:8888/osusume/src/php/load.php",
       url: "http://localhost:8888/osusume/src/php/index.php?url=http://localhost:8888/osusume/src/php/load.php",
-//      url: "http://localhost:8888/osusume/src/php/load.php",
-//      type: "get",
+      type: "get",
       processData: false,
       contentType: false,
       success: d.resolve,
@@ -138,13 +138,16 @@ function makeView(j) {
         "background-color": "#fff",
         "border": "6px solid #0277BD",
         "border-radius": "2px",
-        "padding": "16px",
-        "box-shadow": "0 0 6px #666"
+        "padding-bottom": "16px",
+        "box-shadow": "0 0 2px #333"
       },
       title: {
         "margin": "0",
         "font-size": "18px",
-        "text-align": "center"
+        "text-align": "center",
+        "background-color": "#0277BD",
+        "color": "#fff",
+        "padding-bottom": "6px"
       }
     },
     render: function () {
@@ -170,18 +173,20 @@ function makeView(j) {
           "padding-left": 0
         },
         date: {
+          "margin-top": "8px",
           "font-size": "14px"
         },
         name: {
           "text-align": "left",
-          "margin-top": "8px"
+          "margin": "8px"
         }
       };
       var programNodes = this.props.data.map(function (p) {
+        var url = '//moba8.net/a8v2/asProgramDetailAction.do?insId=' + p.pid;
         return (
           <ul style={style.ul}>
             <li style={style.date}>【{p.date}】</li>
-            <li style={style.name}><a href='http://moba8.net/a8v2/asProgramDetailAction.do?insId={p.pid}'>{p.pname}</a></li>
+            <li style={style.name}><a href={url}>{p.pname}</a></li>
           </ul>
         );
       });
@@ -200,21 +205,23 @@ function makeView(j) {
       program_box.fadeOut(500);
     },
     style: {
-      "width": "32px",
-      "line-height": "32px",
+      "width": "28px",
+      "height": "28px",
+      "line-height": "26px",
       "vertical-align": "middle",
       "background-color": "#fff",
       "border": "none",
       "cursor": "pointer",
-      "border-radius": "2px",
-      "font-size": "20px",
+      "border-radius": "50%",
+      "font-size": "18px",
       "font-weight": "bold",
       "position": "absolute",
-      "top": "4px",
-      "right": "4px",
+      "top": "0",
+      "right": "0",
       "opacity": 1,
       "z-index": 1001,
-      "color": "#455A64"
+      "color": "#455A64",
+      "box-shadow": "inset 0 0 1px #333"
     },
     render: function () {
       return (
