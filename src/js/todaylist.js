@@ -49,9 +49,9 @@ today.list = today.list || {};
     var d = new $.Deferred();
 
     $.ajax({
-      url: "http://support.moba8.net/test/maeda/src/index.php?url=http://support.moba8.net/test/maeda/src/load.php",
+      //url: "http://support.moba8.net/test/maeda/src/php/index.php?url=http://support.moba8.net/test/maeda/src/php/load.php",
+      url: "http://localhost:8888/osusume/src/php/index.php?url=http://localhost:8888/osusume/src/php/load.php",
       type: "get",
-      //dataType: "jsonp",
       processData: false,
       contentType: false,
       success: d.resolve,
@@ -68,8 +68,8 @@ today.list = today.list || {};
     var w = $(window);
 
     this.fetchCSV().done(function (d) {
-      var array = JSON.parse(d);
       console.dir(d);
+      var array = JSON.parse(d);
       _this.generateJson(array);
       w.trigger("start_view");
     });
