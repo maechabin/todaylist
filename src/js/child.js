@@ -50,8 +50,8 @@ today.list = today.list || {};
     var d = new $.Deferred();
 
     $.ajax({
-//      url: protocol + "//localhost:8888/osusume/src/php/index.php?url=" + protocol + "//localhost:8888/osusume/src/php/load.php",
-      url: "http://localhost:8888/osusume/src/php/index.php?url=http://localhost:8888/osusume/src/php/load.php",
+      //url: "http://localhost:8888/osusume/src/php/index.php?url=http://localhost:8888/osusume/src/php/load.php",
+      url: protocol + "//support.moba8.net/test/maeda/src/php/index.php?url=" + protocol + "//support.moba8.net/test/maeda/src/php/load.php",
       type: "get",
       processData: false,
       contentType: false,
@@ -69,10 +69,11 @@ today.list = today.list || {};
     var w = $(window);
 
     this.fetchCSV().done(function (d) {
-      var array = JSON.parse(d);
-      console.dir(array);
+
+      var array = d.split("\n");
       _this.generateJson(array);
       w.trigger("start_view");
+
     });
 
   };
@@ -87,10 +88,12 @@ today.list = today.list || {};
 
     for (var i = 0, l = array.length; i < l; i++) {
 
-      if (array[i][0] === today) {
-        this.json.date = array[i][0];
-        this.json.pid = array[i][1];
-        this.json.pname = array[i][2];
+      var data = array[i].split(",");
+
+      if (data[0] === today) {
+        this.json.date = data[0];
+        this.json.pid = data[1];
+        this.json.pname = data[2];
       }
 
     }
