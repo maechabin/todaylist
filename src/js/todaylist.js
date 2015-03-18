@@ -20,7 +20,7 @@ today.list = today.list || {};
     };
 
     // Cookieの有効期限の形式　"Tue, 10 Mar 2015 23:59:59 GMT"
-    var expire = week_arr[date.week] + ", " + date.day + " " + month_arr[date.month] + " " + date.year + " 23:59:59 GMT";
+    var expire = week_arr[date.week] + ", " + date.day + " " + month_arr[date.month] + " " + date.year + " 14:59:59 GMT";
     document.cookie = "_m8_daily_visited=true;expires=" + expire;
 
   };
@@ -51,8 +51,8 @@ today.list = today.list || {};
     var d = new $.Deferred();
 
     $.ajax({
-      //url: "http://localhost:8888/osusume/src/php/index.php?url=http://localhost:8888/osusume/src/php/load.php",
-      url: protocol + "//support.moba8.net/test/maeda/src/php/index.php?url=http://support.moba8.net/test/maeda/src/php/load.php",
+      //url: "http://localhost:8888/recommend/src/php/index.php?url=http://localhost:8888/recommend/src/php/load.php",
+      url: protocol + "//support.moba8.net/recommend/src/php/index.php?url=http://support.moba8.net/recommend/src/php/load.php",
       type: "get",
       processData: false,
       contentType: false,
@@ -108,10 +108,10 @@ today.list = today.list || {};
 
     var c = this.getCookie();
 
-    //if (c._m8_daily_visited !== "true") {
+    if (c._m8_daily_visited !== "true") {
       this.extractData();
       this.setCookie();
-    //}
+    }
 
   };
 
@@ -209,11 +209,12 @@ today.list = today.list || {};
           }
         };
         var programNodes = this.props.data.map(function (p) {
-          var url = '/a8v2/asProgramDetailAction.do?insId=' + p.pid;
+          var url = '/a8v2/asProgramDetailAction.do?insId=' + p.pid + "&r=todaylist";
+          var analytics = "ga('send', 'event', 'login-top', 'click', 'today-osusume-" + p.pid + "');";
           return (
             React.createElement("ul", {style: style.ul},
               React.createElement("li", {style: style.date}, "【", p.date, "】"),
-              React.createElement("li", {style: style.name}, React.createElement("a", {href: url, style: style.a}, p.pname))
+              React.createElement("li", {style: style.name}, React.createElement("a", {href: url, style: style.a, onclick: analytics}, p.pname))
             )
           );
         });
@@ -284,7 +285,7 @@ today.list = today.list || {};
       var json = today.list.json;
       setTimeout(function () {
         today.list.makeView(json)
-      }, 1000);
+      }, 500);
     });
 
   });
