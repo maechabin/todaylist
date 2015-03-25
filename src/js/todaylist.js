@@ -115,10 +115,10 @@ window.today.list = window.today.list || {};
     var c = this.getCookie();
 
     //　開発時はif文をコメントアウトしておくと確認しやすくなる
-    //if (c._m8_daily_visited !== "true") {
+    if (c._m8_daily_visited !== "true") {
       this.extractData();
       this.setCookie();
-    //}
+    }
 
   };
 
