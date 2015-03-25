@@ -56,8 +56,8 @@ window.today.list = window.today.list || {};
     var d = new $.Deferred();
 
     $.ajax({
-      url: "http://localhost:8888/recommend/src/php/index.php?url=http://localhost:8888/recommend/src/php/load.php",
-      //url: protocol + "//support.moba8.net/recommend/src/php/index.php?url=http://support.moba8.net/recommend/src/php/load.php",
+      //url: "http://localhost:8888/recommend/src/php/index.php?url=http://localhost:8888/recommend/src/php/load.php",
+      url: protocol + "//support.moba8.net/recommend/src/php/index.php?url=http://support.moba8.net/recommend/src/php/load.php",
       type: "get",
       processData: false,
       contentType: false,
