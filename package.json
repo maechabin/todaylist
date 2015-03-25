@@ -1,18 +1,15 @@
 {
-  "name": "osusume",
-  "version": "1.0.0",
-  "description": "",
-  "main": "child.js",
+  "name": "todaylist",
+  "version": "0.1.1",
+  "main": "./src/js/todaylist.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Takanori Maeda",
+  "license": "MIT",
   "devDependencies": {
-    "react": "^0.13.0",
-    "react-tools": "^0.13.0"
-  },
-  "browser": {
-    "react": "./node_modules/react-tools/src/main.js"
+    "jquery": "^2.1.3",
+    "react": "^0.13.1",
+    "react-tools": "^0.13.1"
   }
 }

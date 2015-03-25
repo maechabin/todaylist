@@ -1,2 +1,3 @@
 node_module/
 src/php/json_encode.php
+test/

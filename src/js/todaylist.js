@@ -1,7 +1,12 @@
-var today = today || {};
-today.list = today.list || {};
+/*
+var React = require("react");
+var jQuery = require("jquery");
+require("xdr");
+*/
+window.today = window.today || {};
+window.today.list = window.today.list || {};
 
-(function (window, document, p, undefined) {
+(function ($, window, document, p, undefined) {
 
   "use strict";
 
@@ -51,8 +56,8 @@ today.list = today.list || {};
     var d = new $.Deferred();
 
     $.ajax({
-      //url: "http://localhost:8888/recommend/src/php/index.php?url=http://localhost:8888/recommend/src/php/load.php",
-      url: protocol + "//support.moba8.net/recommend/src/php/index.php?url=http://support.moba8.net/recommend/src/php/load.php",
+      url: "http://localhost:8888/recommend/src/php/index.php?url=http://localhost:8888/recommend/src/php/load.php",
+      //url: protocol + "//support.moba8.net/recommend/src/php/index.php?url=http://support.moba8.net/recommend/src/php/load.php",
       type: "get",
       processData: false,
       contentType: false,
@@ -98,6 +103,7 @@ today.list = today.list || {};
         this.json.date = data[0];
         this.json.pid = data[1];
         this.json.pname = data[2];
+        this.json.comment = data[3] || "";
       }
 
     }
@@ -108,17 +114,18 @@ today.list = today.list || {};
 
     var c = this.getCookie();
 
-    if (c._m8_daily_visited !== "true") {
+    //　開発時はif文をコメントアウトしておくと確認しやすくなる
+    //if (c._m8_daily_visited !== "true") {
       this.extractData();
       this.setCookie();
-    }
+    //}
 
   };
 
-} (window, document, window.today.list = window.today.list || {}));
+} (jQuery, window, document, window.today.list));
 
 
-(function (window, document, p, undefined) {
+(function (React, window, document, p, undefined) {
 
   "use strict";
 
@@ -144,7 +151,7 @@ today.list = today.list || {};
           "opacity": 1,
           "z-index": 1000,
           "width": "90%",
-          "max-width": "500px",
+          "max-width": "540px",
           "min-width": "300px",
           "height": "160px",
           "background-color": "#fff",
@@ -206,15 +213,22 @@ today.list = today.list || {};
           a: {
             "color": "#FF3D00",
             "text-decoration": "underline"
+          },
+          comment: {
+            "text-align": "left",
+            "font-size": "14px",
+            "font-weight": "normal",
+            "margin": "4px 16px 0"
           }
         };
         var programNodes = this.props.data.map(function (p) {
-          var url = '/a8v2/asProgramDetailAction.do?insId=' + p.pid + "&r=todaylist";
+          var url = '/a8v2/asProgramSearchAction.do?action=confirm&insIds=' + p.pid + "&r=todaylist";
           var analytics = "ga('send', 'event', 'login-top', 'click', 'today-osusume-" + p.pid + "');";
           return (
             React.createElement("ul", {style: style.ul},
               React.createElement("li", {style: style.date}, "【", p.date, "】"),
-              React.createElement("li", {style: style.name}, React.createElement("a", {href: url, style: style.a, onclick: analytics}, p.pname))
+              React.createElement("li", {style: style.name}, React.createElement("a", {href: url, style: style.a, onclick: analytics}, p.pname)),
+              React.createElement("li", {style: style.comment}, p.comment)
             )
           );
         });
@@ -272,7 +286,7 @@ today.list = today.list || {};
 
   };
 
-} (window, document, window.today.list = window.today.list || {}));
+} (React, window, document, window.today.list));
 
 
 (function ($, window, document, undefined) {
