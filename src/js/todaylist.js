@@ -1,18 +1,13 @@
-/*
-var React = require("react");
-var jQuery = require("jquery");
-require("xdr");
-*/
 window.today = window.today || {};
 window.today.list = window.today.list || {};
 
-(function ($, window, document, p, undefined) {
+(function ($, window, document, todaylist, undefined) {
 
   "use strict";
 
-  p.json = {};
+  todaylist.json = {};
 
-  p.setCookie = function () {
+  todaylist.setCookie = function () {
 
     var week_arr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     var month_arr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -24,13 +19,13 @@ window.today.list = window.today.list || {};
       week: d.getDay()
     };
 
-    // Cookieの有効期限の形式　"Tue, 10 Mar 2015 23:59:59 GMT"
+    // Cookieの有効期限の形式　"Tue, 10 Mar 2015 14:59:59 GMT"
     var expire = week_arr[date.week] + ", " + date.day + " " + month_arr[date.month] + " " + date.year + " 14:59:59 GMT";
     document.cookie = "_m8_daily_visited=true;expires=" + expire;
 
   };
 
-  p.getCookie = function () {
+  todaylist.getCookie = function () {
 
     var result = [];
     var allcookies = document.cookie;
@@ -50,7 +45,7 @@ window.today.list = window.today.list || {};
 
   };
 
-  p.fetchCSV = function () {
+  todaylist.fetchCSV = function () {
 
     var protocol = location.protocol;
     var d = new $.Deferred();
@@ -69,7 +64,7 @@ window.today.list = window.today.list || {};
 
   };
 
-  p.extractData = function () {
+  todaylist.extractData = function () {
 
     var _this = this;
     var w = $(window);
@@ -87,7 +82,7 @@ window.today.list = window.today.list || {};
 
   };
 
-  p.generateJson = function (a) {
+  todaylist.generateJson = function (a) {
 
     var d = new Date();
     var month = d.getMonth() + 1;
@@ -110,7 +105,7 @@ window.today.list = window.today.list || {};
 
   };
 
-  p.init = function () {
+  todaylist.init = function () {
 
     var c = this.getCookie();
 
@@ -125,11 +120,11 @@ window.today.list = window.today.list || {};
 } (jQuery, window, document, window.today.list));
 
 
-(function (React, window, document, p, undefined) {
+(function (React, window, document, todaylist, undefined) {
 
   "use strict";
 
-  p.makeView = function (j) {
+  todaylist.makeView = function (j) {
 
     //渡すデータの形式
     //var data = [
@@ -153,7 +148,7 @@ window.today.list = window.today.list || {};
           "width": "90%",
           "max-width": "540px",
           "min-width": "300px",
-          "height": "160px",
+          "height": "210px",
           "background-color": "#fff",
           "border": "6px solid #c62828",
           "border-radius": "3px",
@@ -180,7 +175,7 @@ window.today.list = window.today.list || {};
       render: function () {
         return (
           React.createElement("div", {style: this.style.div, className: "programBox"},
-            React.createElement("h2", {style: this.style.title}, "本日のおすすめプログラム"),
+            React.createElement("h2", {style: this.style.title}, "本日のプログラム"),
             React.createElement(ProgramList, {data: this.props.data}),
             React.createElement(ClearButton, null),
             React.createElement("p", {style: this.style.p}, "※こちらの情報は1日1回のみの表示となります。")
@@ -193,6 +188,7 @@ window.today.list = window.today.list || {};
       render: function () {
         var style = {
           ul: {
+            "align-items": "center",
             "margin-top": "2px",
             "text-align": "center",
             "font-size": "16px",
@@ -207,7 +203,7 @@ window.today.list = window.today.list || {};
           },
           name: {
             "text-align": "left",
-            "margin": "4px 16px 0",
+            "margin": "4px 16px 6px",
             "line-height": "1.4em"
           },
           a: {
@@ -218,7 +214,11 @@ window.today.list = window.today.list || {};
             "text-align": "left",
             "font-size": "14px",
             "font-weight": "normal",
-            "margin": "4px 16px 0"
+            "margin": "4px 16px 0",
+            "background-color": "#BBDEFB",
+            "border-radius": "2px",
+            "padding": "8px",
+            "color": "#111",
           }
         };
         var programNodes = this.props.data.map(function (p) {
@@ -226,7 +226,7 @@ window.today.list = window.today.list || {};
           var analytics = "ga('send', 'event', 'login-top', 'click', 'today-osusume-" + p.pid + "');";
           return (
             React.createElement("ul", {style: style.ul},
-              React.createElement("li", {style: style.date}, "【", p.date, "】"),
+              React.createElement("li", {style: style.date}, "【 ", p.date, " 】"),
               React.createElement("li", {style: style.name}, React.createElement("a", {href: url, style: style.a, onclick: analytics}, p.pname)),
               React.createElement("li", {style: style.comment}, p.comment)
             )
@@ -289,19 +289,22 @@ window.today.list = window.today.list || {};
 } (React, window, document, window.today.list));
 
 
-(function ($, window, document, undefined) {
+(function ($, window, document, todaylist, undefined) {
+
+  "use strict";
 
   $(document).ready(function () {
 
     var w = $(window);
-    today.list.init();
+
+    todaylist.init();
     w.on("start_view", function () {
-      var json = today.list.json;
+      var json = todaylist.json;
       setTimeout(function () {
-        today.list.makeView(json)
+        todaylist.makeView(json)
       }, 500);
     });
 
   });
 
-} (jQuery, window, document));
+} (jQuery, window, document, window.today.list));
