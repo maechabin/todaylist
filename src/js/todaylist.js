@@ -19,7 +19,7 @@ window.today.list = window.today.list || {};
       week: d.getDay()
     };
 
-    // Cookie¤ÎÍ­¸ú´ü¸Â¤Î·Á¼°¡¡"Tue, 10 Mar 2015 14:59:59 GMT"
+    // Cookieã®æœ‰åŠ¹æœŸé™ã®å½¢å¼ã€€"Tue, 10 Mar 2015 14:59:59 GMT"
     var expire = week_arr[date.week] + ", " + date.day + " " + month_arr[date.month] + " " + date.year + " 14:59:59 GMT";
     document.cookie = "_m8_daily_visited=true;expires=" + expire;
 
@@ -52,7 +52,7 @@ window.today.list = window.today.list || {};
 
     $.ajax({
       //url: "http://localhost:8888/recommend/src/php/index.php?url=http://localhost:8888/recommend/src/php/load.php",
-      url: protocol + "//support.moba8.net/recommend/src/php/index.php?url=http://support.moba8.net/recommend/src/php/load.php",
+      url: protocol + "//support.aaa.net/recommend/src/php/index.php?url=http://support.aaa.net/recommend/src/php/load.php",
       type: "get",
       processData: false,
       contentType: false,
@@ -87,7 +87,7 @@ window.today.list = window.today.list || {};
     var d = new Date();
     var month = d.getMonth() + 1;
     var day = d.getDate();
-    var today = month + "·î" + day + "Æü";
+    var today = month + "æœˆ" + day + "æ—¥";
     var array = a;
 
     for (var i = 0, l = array.length; i < l; i++) {
@@ -109,7 +109,7 @@ window.today.list = window.today.list || {};
 
     var c = this.getCookie();
 
-    //¡¡³«È¯»ş¤ÏifÊ¸¤ò¥³¥á¥ó¥È¥¢¥¦¥È¤·¤Æ¤ª¤¯¤È³ÎÇ§¤·¤ä¤¹¤¯¤Ê¤ë
+    //ã€€é–‹ç™ºæ™‚ã¯ifæ–‡ã‚’ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã—ã¦ãŠãã¨ç¢ºèªã—ã‚„ã™ããªã‚‹
     if (c._m8_daily_visited !== "true") {
       this.extractData();
       this.setCookie();
@@ -126,16 +126,16 @@ window.today.list = window.today.list || {};
 
   todaylist.makeView = function (j) {
 
-    //ÅÏ¤¹¥Ç¡¼¥¿¤Î·Á¼°
+    //æ¸¡ã™ãƒ‡ãƒ¼ã‚¿ã®å½¢å¼
     //var data = [
-    //  {date: "2015Ç¯3·î11Æü", pid: "xxxxxxxxxxxxxxx", pname: "xxxxxxxxxxx"}
+    //  {date: "2015å¹´3æœˆ11æ—¥", pid: "xxxxxxxxxxxxxxx", pname: "xxxxxxxxxxx"}
     //];
     var data = [j];
 
     var ProgramBox = React.createClass({displayName: "ProgramBox",
       style: {
         div: {
-          "font-family": "¥á¥¤¥ê¥ª",
+          "font-family": "ãƒ¡ã‚¤ãƒªã‚ª",
           "color": "#546E7A",
           "position": "absolute",
           "top": 0,
@@ -175,10 +175,10 @@ window.today.list = window.today.list || {};
       render: function () {
         return (
           React.createElement("div", {style: this.style.div, className: "programBox"},
-            React.createElement("h2", {style: this.style.title}, "ËÜÆü¤Î¥×¥í¥°¥é¥à"),
+            React.createElement("h2", {style: this.style.title}, "æœ¬æ—¥ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ "),
             React.createElement(ProgramList, {data: this.props.data}),
             React.createElement(ClearButton, null),
-            React.createElement("p", {style: this.style.p}, "¢¨¤³¤Á¤é¤Î¾ğÊó¤Ï1Æü1²ó¤Î¤ß¤ÎÉ½¼¨¤È¤Ê¤ê¤Ş¤¹¡£")
+            React.createElement("p", {style: this.style.p}, "â€»ã“ã¡ã‚‰ã®æƒ…å ±ã¯1æ—¥1å›ã®ã¿ã®è¡¨ç¤ºã¨ãªã‚Šã¾ã™ã€‚")
           )
         );
       }
@@ -226,7 +226,7 @@ window.today.list = window.today.list || {};
           var analytics = "ga('send', 'event', 'login-top', 'click', 'today-osusume-" + p.pid + "');";
           return (
             React.createElement("ul", {style: style.ul},
-              React.createElement("li", {style: style.date}, "¡Ú ", p.date, " ¡Û"),
+              React.createElement("li", {style: style.date}, "ã€ ", p.date, " ã€‘"),
               React.createElement("li", {style: style.name}, React.createElement("a", {href: url, style: style.a, onclick: analytics}, p.pname)),
               React.createElement("li", {style: style.comment}, p.comment)
             )
@@ -271,7 +271,7 @@ window.today.list = window.today.list || {};
       render: function () {
         return (
           React.createElement("button", {style: this.style, className: "clearButton", onClick: this.clearBox},
-            "¡ß"
+            "Ã—"
           )
         );
       }
